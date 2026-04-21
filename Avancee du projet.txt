@@ -1,0 +1,191 @@
+github : https://github.com/vic-rie/music-app.git
+
+À chaque modification :
+git add .
+git commit -m "Description des changements"
+git push
+
+-----------------------------------------------------------------------------
+#   21-02 :
+- Renseignement sur le fonctionnement global du projet
+- Création de la structure de fichier
+- Installation de la dernière version de Python via le guide valorem
+- Création d'un environnement virtuel qui utilise la version de python indiquée
+- Configuration de VSCode pour que l'interpréteur python soit celui de l'environnement virtuel
+
+  |--> pour la prochaine fois :
+		- installer GIT (utilité ?)
+		- configurer GIT ??
+		- continuer à remplir les fichier .py à l'aide de ChatGPT
+
+-----------------------------------------------------------------------------
+#   22-02 :
+- Installation de git
+- Configuration du repo (dépôt) sur github
+- Synchronisation avec VS Code
+
+  |--> pour la prochaine fois :
+		- continuer à remplir les fichier .py à l'aide de ChatGPT
+
+
+-----------------------------------------------------------------------------
+#   23-02 :
+- Remplissage des fichiers avec ChatGPT --> PB
+	--> trop de code que je ne comprends pas : projet trop complexe
+- Essai de nouveau projet simple (projet évolutif pédagogique = partir
+	d'une idée simple comprenant frontend (html, css, js) et backend (python)
+
+
+-----------------------------------------------------------------------------
+#   25-02 :
+	NOTES : 1. le nouveau projet n'est pas sur github
+		2. l'adresse du serveur pour Flask : http://localhost:5000
+- Démarrage du nouveau projet mêlant frontend et bakend
+- Apprentissage des notions : Flask (réseau local), intéraction entre 
+	hmtl et script python, frontend (html, css, js)
+- Evolution du projet et approfondissement de chaque partie
+- Division du code hmtl en 3 fichiers (html pur, css, js)
+
+  |--> pour la prochaine fois :
+		- rendre la page plus dynamique :images/boutons, animation
+		de boutons qui s'acctionnent PUIS : différents onglets,
+		différentes pages
+		- essayer de se rapprocher du projet initial : faire une
+		liste de musique ou qq chose comme ça
+
+-----------------------------------------------------------------------------
+#   26/27-02 :
+	NOTES : 1. Le projet sera constitué en onglets et non pas en 
+		différentes pages (compliqué pour peu d'intérêt dans mon cas)
+		2. Il faut penser l'interface SUR PAPIER avant de le réaliser
+
+- Elaboration d'un carrousel faisant défiler 5 images avec transitions
+	à l'aide d'un bouton
+- Démarrage d'un nouveau chat chatgpt "HTML, CSS, ..."
+- Agencement en différents onglets
+- Choix des onglets pour le projet final
+
+  |--> pour la prochaine fois :
+		- dans le projet "in_progress", essayer de rajouter un onglet
+		où on peut play un mp3 stocké en local, puis un lien externe
+		(yt ou spotify par exemple), puis faire en sorte que le
+		player reste statique malgré les changement d'onglets
+		- designer l'interface SUR PAPIER
+		- débuter un nouveau projet avec la base de "in_progress",
+		re-générer le .venv PUIS réaliser l'interface pensée sur
+		papier
+
+
+-----------------------------------------------------------------------------
+#     04/05-03 :
+	NOTE :  1. Dans un premier temps, les fichiers seront stockés en local
+		dans le dossier static/audio, on verra plus tard pour le 
+		lien exeterne vers yt music, etc.	
+
+- Rajout du player qui dans un onglet puis fixe sur tous les onglets
+- Modification du python pour qu'il envoie la playlist des musiques dispos
+dans static/audio par une route
+
+  |--> pour la prochaine fois :
+
+		- designer l'interface SUR PAPIER
+		- débuter un nouveau projet avec la base de "in_progress",
+		re-générer le .venv PUIS réaliser l'interface pensée sur
+		papier
+		- avancer sur la partie récupération des données spotify
+
+
+-----------------------------------------------------------------------------
+#     11-03 :
+
+- design des interfaces SUR PAPIER (carnet)
+- débuter un nouveau projet avec la base de "in_progress", re-générer le
+ .venv 
+
+  |--> pour la prochaine fois :
+
+		- réaliser l'interface pensée sur papier
+		- avancer sur la partie récupération des données spotify
+
+-----------------------------------------------------------------------------
+#     20/28-03 :
+
+- réalisation de l'interface A pensée sur papier (notamment liste des sons)
+- travail sur la barre de recherche. Recherche intelligente mise en place.
+
+  |--> pour la prochaine fois :
+		- trouver comment mettre en place une procédure permettant de
+		télécharger automatiquement des musiques depuis yt
+		- connecter le lecteur media au reste de l'interface
+		- connecter l'interface à yt music d'une certaine manière
+
+-----------------------------------------------------------------------------
+#     30-03 :
+
+- installation de ad-block dans l'objectif d'utiliser yt music
+- décision de se pencher d'abord sur la solution locale plutôt que yt music
+(api, barre de progression et autres commandes potentiellemnt difficiles à
+synchroniser avec l'interface développée) --> solution locale déjà développée,
+à voir en priorité si le téléchargement en chaîne est possible.
+- création du script web_automation.py permettant de récupérer les adresses
+internet de chaque chanson présente dans "tracks.json"
+
+  |--> pour la prochaine fois :
+	- s'inspirer du "exec.py" développé pendant le PFE pour écrire les
+	adresses internet dans un fichier excel et suivre l'évolution du
+	téléchargement (intérêt : pouvoir le faire en plusieurs fois)
+	- objectifs précédents
+
+-----------------------------------------------------------------------------
+#     31-03 -> 05/04 (toute la semaine) :
+
+- Rédaction d'1 script python permettant de récupérer les url yt des chansons
+de manière auomatique en série et écriture dans un fichier excel (suivi +
+écriture en plusieurs fois)
+- Rédaction d'1 script python permettant à partir des url récupérées, de
+télécharger des fichiers mp3 sur un site de conversion yt -> mp3, automatisé,
+en série + suivi dans le même excel
+- Corrections de multiples bus pratiques + sécurisation de l'écriture dans
+le excel (en 2 temps) pour éviter la corruption du fichier
+- Lancement du premier script à plusieurs reprises afin de télécharger
+tous les liens yt souhaités (~ 5000)
+- Lancement du deuxième script à plusieurs reprises, à ce jour 15% téléchargés
+- Connexion de l'interface A avec la barre de contrôle média
+
+  |--> pour la prochaine fois :
+	- Régler bugs morceaux manquants dans l'interface (rajouter des
+	"morceaux vides" pour combler les trous -> tous ?
+	+ faire en sorte de modifier l'affichage (grisé indisponible /
+	surbrillance = en train d'être joué)
+	
+	- Trouver un moyen de pouvoir charger les audios depuis le disque dur
+	externe
+
+	- A l'avenir se questionner si les liens sélectionnés étaient vraiment
+	optimaux, sinon corriger le problème et re-remplir le 'url_list.xlsx'
+	(chronophage)
+
+	- Avant le reste, travailler l'affichage (ergonomie = plus important
+	à ce niveau-là)
+
+
+---------------------------------------------------------------------------
+
+#     06-07/04 :
+
+- Travail pour améliorer la lecture playlist (JS) + travail sur le layout
+de la playlist (griser les sons indisponibles + surbrillance)
+- Trouver un moyen de pouvoir charger les audios depuis le disque dur externe
+et le détecter automatiquement --> sinon charger la BDD locale
+- Travail général sur le layout (couleurs) + refonte de la bar de media controls
+ (fait proprement = s'en inspirer pour le panneau général)
+
+  |--> pour la prochaine fois :
+	- Trouver une "triche" pour que la table complète n'est pas à se
+	rechargée en entier à chaque fois qu'on sort de la recherche
+	(comme traiter les recherches comme un onglet par exemple ?)
+	- Travailler le layout --> titres des chansons dans le media control
+	bar = titre + nom artiste + pochette   + boîte de texte "au touché"
+	qui affiche les détails du son (titre orginale de la video yt)
+	- Trouver un moyen de récupérer les pochettes des albums
+	- Travail général sur le layout

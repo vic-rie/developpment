@@ -1,0 +1,7 @@
+flask
+pandas
+selenium
+openpyxl
+requests
+mutagen
+pillow
