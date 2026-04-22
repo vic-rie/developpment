@@ -4,18 +4,8 @@ from mutagen.mp3 import MP3
 
 
 import functions as module
+import counting_tracks as ct
 
-def durationToMinutes(seconds):
-    if seconds is None:
-        return "--:--"
-    minutes = int(seconds // 60)
-    sec = int(seconds % 60)
-    return f"{minutes}:{sec:02d}"
-
-def durationToHours(seconds):
-    hours = int(seconds // 3600)
-    minutes = int((seconds % 3600) // 60)
-    return f"{hours} h {minutes} min"
 
 
 dfDataJSON = module.load_data("tracks.json")
@@ -26,45 +16,51 @@ app = Flask(__name__)
 if os.path.exists("E:/Music"):
     AUDIO_FOLDER = "E:/Music"  # chemin disque externe
     IMAGES_FOLDER = "E:/Covers"
+    timingsPaths = f"C:/{basepath_}/frontend/timings.txt"
 else:
     AUDIO_FOLDER = "C:/Users/Elève/Desktop/developpment/frontend/static/audio"  # chemin local
     IMAGES_FOLDER = "C:/Users/Elève/Desktop/developpment/frontend/static/images"
+    timingsPaths = f"C:/{basepath_}/frontend/timings_local.txt"
 
 
-durations = []
-totalDuration = 0
-availableTracks = 0
+if os.path.exists(timingsPaths):
+    print("Utilisation du fichier timings trouvé\n")
 
-for i in range(len(dfDataJSON)):
-    row = dfDataJSON.iloc[i]
+    file = open(timingsPaths)
 
-    path = f"{AUDIO_FOLDER}/{row['artist']} - {row['track']}.mp3"
+    availableTracks = file.readline().rstrip('\n')
+    totalDurationInHours = file.readline().rstrip('\n')
+    durations = file.readline().split(";")
 
-    if os.path.exists(path):
-        audio = MP3(path)
-        durationSeconds = audio.info.length
-        duration = durationToMinutes(durationSeconds)
+    file.close()
+else:
+    print("Fichier timings non trouvé")
+    durations = []
 
-        totalDuration += durationSeconds
-        availableTracks += 1
-    else:
-        duration = durationToMinutes(None)
 
-    durations.append(duration)
+if len(durations) != len(dfDataJSON):   # couvre le cas de la MAJ du fichier JSON + fichier inexistant
+    print("Création du fichier timings...")
+    ct.countingTracks(timingsPaths, AUDIO_FOLDER, dfDataJSON)
 
-dfDataJSON["duration"] = durations
+    file = open(timingsPaths)
+
+    availableTracks = file.readline().rstrip('\n')
+    totalDurationInHours = file.readline().rstrip('\n')
+    durations = file.readline().split(";")
+    print("Done")
+
+    file.close()
+
+dfDataJSON['duration'] = durations
+
 
 
 # Route pour la page HTML
 @app.route("/")
 def index():
-    data = dfDataJSON.to_dict(orient="records")
-    totalDurationInHours = durationToHours(totalDuration)
-    return render_template("index.html")
-                            # data=data,
-                            #   totalDurationInHours=totalDurationInHours,
-                            #     availableTracks=availableTracks)
-
+    return render_template("index.html",
+                           totalDurationInHours=totalDurationInHours,
+                                availableTracks=availableTracks)
 
 
 # Route qui renvoie la playlist des fichiers audio contenus dans static/audio

@@ -69,36 +69,39 @@ const tracksData = rows.map(row => ({
     )
 }));
 
+
 function filtrerTable() {
+
     const input = document.getElementById("nom").value.trim();
 
-    // ✅ CAS 1 : champ vide → on ne fait RIEN
+    const tbody = document.getElementById("music-body");
+
+    // reset affichage
+    tbody.innerHTML = "";
+    loadedCount = 0;
+
     if (input === "") {
-        // 🔥 IMPORTANT : on annule juste les filtres précédents
-        tracksData.forEach(track => {
-            if (track.hidden) {
-                track.element.style.display = "";
-                track.hidden = false;
-            }
-        });
+        isSearching = false;
+        loadMoreTracks();
         return;
     }
 
     const mots = normalize(input).split(" ").filter(m => m !== "");
 
-    tracksData.forEach(track => {
-        const match = mots.every(mot => track.text.includes(mot));
+    filteredTracks = allTracks.filter(track => {
 
-        // 👉 on modifie seulement si nécessaire
-        if (!match && !track.hidden) {
-            track.element.style.display = "none";
-            track.hidden = true;
-        } 
-        else if (match && track.hidden) {
-            track.element.style.display = "";
-            track.hidden = false;
-        }
+        const text = normalize(
+            track.track + " " +
+            track.artist + " " +
+            track.album
+        );
+
+        return mots.every(mot => text.includes(mot));
     });
+
+    isSearching = true;
+
+    loadMoreTracks();
 }
 
 
@@ -128,6 +131,9 @@ let allTracks = [];
 let loadedCount = 0;
 const step = 50;
 
+let filteredTracks = [];
+let isSearching = false;
+
 // récupérer la playlist depuis Flask
 Promise.all([
     fetch("/playlist").then(res => res.json()),
@@ -136,7 +142,10 @@ Promise.all([
 .then(([dataPath, dataTable]) => {
 
     playlist = dataPath;
-    allTracks = dataTable;
+    allTracks = dataTable.map((track, index) => ({
+        ...track,
+        realIndex: index
+    }));
 
     console.log("playlist OK", playlist.length);
     console.log("tracks OK", allTracks.length);
@@ -161,21 +170,23 @@ window.addEventListener("scroll", () => {
 function loadMoreTracks() {
 
     const tbody = document.getElementById("music-body");
-    const end = Math.min(loadedCount + step, allTracks.length);
+    const source = isSearching ? filteredTracks : allTracks;
+    const end = Math.min(loadedCount + step, source.length);
     const newRows = [];
 
     for (let i = loadedCount; i < end; i++) {
 
-        const track = allTracks[i];
+        const track = source[i];
 
         const row = document.createElement("tr");
         row.classList.add("track-row");
-        row.dataset.index = i + 1;
+        row.dataset.index = i + 1; // affichage
+        row.dataset.realIndex = track.realIndex; // logique réelle
         row.dataset.artist = track.artist;
         row.dataset.album = track.album;
 
         row.innerHTML = `
-            <td>${i + 1}</td>
+            <td>${track.realIndex + 1}</td>
             <td>
                 <img src="/images/default-cover.jpg" class="albumCoverList">
             </td>
@@ -198,15 +209,14 @@ function loadMoreTracks() {
 
 
 function updateImages(rows) {
-    // const rows = document.querySelectorAll(".track-row");
 
     rows.forEach(row => {
-        const index = row.dataset.index;
+        const index = row.dataset.realIndex;
         const artist = row.dataset.artist;
         const album = row.dataset.album;
         const img = row.querySelector("img");
 
-        if (playlist[index - 1]) {
+        if (playlist[index]) {
             img.src = `/images/${artist} - ${album}.jpg`;
             img.onerror = () => {
             img.src = "/images/available_default-cover.jpg";
@@ -244,7 +254,8 @@ function highlightTrack(index) {
         row.classList.remove("active-track");
     });
 
-    const activeRow = document.querySelector(`.track-row[data-index="${index + 1}"]`);
+    // const activeRow = document.querySelector(`.track-row[data-index="${index + 1}"]`);
+    const activeRow = document.querySelector(`.track-row[data-real-index="${index}"]`);
 
     if (activeRow) {
         activeRow.classList.add("active-track");
@@ -257,24 +268,13 @@ document.querySelector(".music-table tbody").addEventListener("click", (e) => {
     const row = e.target.closest(".track-row");
     if (!row) return;
 
-    index_playlist = row.dataset.index - 1;
+    // index_playlist = row.dataset.index - 1;
+    index_playlist = parseInt(row.dataset.realIndex);
 
     if (playlist[index_playlist]) {
         playTrack(index_playlist);
     }
 });
-
-
-// document.querySelectorAll(".track-row").forEach(row => {
-
-//         row.addEventListener("click", () => {
-//             index_playlist = row.dataset.index - 1;
-//             if (playlist[index_playlist]) {
-
-//                 playTrack(index_playlist);
-//             }
-//         });
-// });
 
 
 // // play / pause
@@ -303,42 +303,32 @@ playButtons.forEach(btn => {
 function nxtTrack(index) {
 
     index++;
-
     if(index >= playlist.length){
         index = 0;
     }
-
     while (!playlist[index]) {
         index++;
-
         if(index >= playlist.length){
             index = 0;
         }
     }
-
     playTrack(index);
-
     return index;
 }
 
 function prvTrack(index) {
 
     index--;
-
     if(index < 0){
         index = playlist.length - 1;
     }
-        
     while (!playlist[index]) {
         index--;
-
         if(index < 0){
                 index = playlist.length - 1;
         }
     }
-
     playTrack(index);
-
     return index;
 }
 
