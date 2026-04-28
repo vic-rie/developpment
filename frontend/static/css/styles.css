@@ -60,10 +60,10 @@ button {
     transform: scale(1.05);
 }
 
-.tab-btn.active svg {
+/* .tab-btn.active svg {
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.678));
     transform: scale(1.05);
-}
+} */
 
 
 #settings-btn {
@@ -229,6 +229,11 @@ textarea::placeholder {
     fill: white;
 }
 
+.randomBtnClass.active svg {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.678));
+    transform: scale(1.05);
+}
+
 
 #nbPan {
     margin-left: 20px;
@@ -337,27 +342,108 @@ textarea::placeholder {
     box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
 }
 
-.player-left {
-    flex: 2;
-    margin-left: 50px;
-    white-space: nowrap;      /* pas de retour à la ligne */
-    overflow: hidden;         /* cache ce qui dépasse */
-    text-overflow: ellipsis;  /* ... */
+.trackData-container {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
 
-.player-center {
+.controlButtons-container {
     flex: 1;
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 
-.player-right {
+.progressBar-container {
+    flex: 5;
     display: flex;
     align-items: center;
-    flex: 6;
+    justify-content: center;
 }
 
+.playlistParameters-container {
+    flex: 2;
+}
+
+
+/* .trackData-container {
+    position: relative;
+} */
+
+/* Tooltip caché */
+.trackTooltip {
+    position: absolute;
+    bottom: 110%;
+    left: 10px;
+    min-width: 25%;
+
+    background: #121212;
+    color: white;
+
+    padding: 10px;
+    /* border-radius: 8px; */
+
+    font-size: 12px;
+
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+
+    transition: all 0.2s ease;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+
+/* Apparition au hover */
+.trackData-container:hover .trackTooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.coverTooltip-container {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.coverTooltip {
+    width: 250px;
+    height: auto;
+}
+
+.trackCover{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.coverPlayer {
+    width: 60px;
+    height: auto;
+}
+
+.trackText {
+    flex: 1;
+    min-width: 0; /* 🔥 indispensable en flex */
+}
+
+.trackNameContainer {
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#trackName {
+    font-size: 18px;
+}
+
+#trackArstist {
+    font-size: 13px;
+}
 
 #prevBtn svg {
     width: 24px;
@@ -401,4 +487,48 @@ textarea::placeholder {
     border: none;
     border-radius: 50%;
     cursor: pointer;
+}
+
+
+/* .playlistControlButtons svg{
+    width: 30px;
+    fill: white;
+    margin-right: 20px;
+    margin-left: 20px;
+} */
+
+
+
+#randomBtnControlBar svg{
+    width: 30px;
+    fill: white;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+#queueBtnControlBar svg{
+    width: 30px;
+    fill: white;
+    margin-right: 20px;
+    margin-left: 20px;   
+}
+
+/* #randomBtnControlBar.active svg {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.678));
+    transform: scale(1.05);
+} */
+
+
+.playlistName {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.playlistControls-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

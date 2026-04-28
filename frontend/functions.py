@@ -9,6 +9,7 @@ from mutagen.id3 import ID3, TIT2, TPE1, TALB, COMM
 import re
 import requests
 import os
+import unicodedata
 
 
 def load_data(fileName):
@@ -25,6 +26,10 @@ def load_data(fileName):
     return df
 
 
+def normalize(text):
+    return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("utf-8").lower()
+
+
 def resize_image_to_square(coverDestination):
 
     # ouvrir l'image
@@ -33,7 +38,7 @@ def resize_image_to_square(coverDestination):
     width, height = img.size
 
     # dimension du carré (le plus petit côté)
-    new_size = height
+    new_size = min(height, width)
 
     # calcul du crop centré
     left = (width - new_size) // 2
@@ -122,9 +127,9 @@ def download_cover_from_link(link, artist, album, coverDestinationPath):
 
 # coverDestinationPath = f"E:/Covers"
 
-# link = "https://www.youtube.com/watch?v=oolpPmuK2I8"
-# artist = "The Beatles"
-# album = "Abbey Road"
+# link = "https://www.youtube.com/watch?v=ORam68OtcmY"
+# artist = "-M-"
+# album = "Je Dis Aime"
 # result, coverFileName = download_cover_from_link(link, artist, album, coverDestinationPath)
 
 # print(result, coverFileName)

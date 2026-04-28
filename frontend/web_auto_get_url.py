@@ -141,11 +141,11 @@ for i in range(len(dfData)):
                         description = span.text.lower()
 
                         if "provided to youtube by" in description:
-                            print("Found video provided by YouTube !")
+                            print('Found video "provided to YouTube by" !')
                             selected_video = video
 
             if (selected_video == None) :
-                print("Aucun résultat 'provided by youtube' trouvé")
+                print('Aucun résultat "provided to YouTube by" trouvé')
                 link = None
                 dfList.loc[i, 'Downloaded ?'] = 'ERROR'
 

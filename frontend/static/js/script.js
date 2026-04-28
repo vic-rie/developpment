@@ -1,5 +1,7 @@
 window.addEventListener("load", () => {
     document.getElementById("nom").value = "";
+    document.getElementById("progress").value = 0;
+
 });
 
 
@@ -117,12 +119,20 @@ searchInput.addEventListener("input", filtrerAvecDebounce);
 
 // MEDIA CONTROL BAR
 const playButtons = document.querySelectorAll(".playBtn");
+const trackCover = document.querySelectorAll(".trackCover");
+
 const audio = document.getElementById("audio");
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 const trackName = document.getElementById("trackName");
-const progress = document.getElementById("progress");
+const trackArtist = document.getElementById("trackArtist");
+
 const timeDisplay = document.getElementById("time");
+
+const tooltipTitle = document.getElementById("tooltipTitle");
+const tooltipArtist = document.getElementById("tooltipArtist");
+const tooltipAlbum = document.getElementById("tooltipAlbum");
+const tooltipDescription = document.getElementById("tooltipDescription");
 
 let playlist = [];
 let index_playlist = 0;
@@ -133,6 +143,9 @@ const step = 50;
 
 let filteredTracks = [];
 let isSearching = false;
+
+let previousTracks = [];
+var j = 0;
 
 // récupérer la playlist depuis Flask
 Promise.all([
@@ -205,6 +218,8 @@ function loadMoreTracks() {
     loadedCount = end;
 
     updateImages(newRows);
+    highlightTrack(index_playlist);
+
 }
 
 
@@ -222,7 +237,10 @@ function updateImages(rows) {
             img.src = "/images/available_default-cover.jpg";
             };
         } else {
+            img.src = `/images/${artist} - ${album}.jpg`;
+            img.onerror = () => {
             img.src = "/images/not_available_default-cover.jpg";;
+            };
             row.style.opacity = "0.7";
         }
     });
@@ -230,10 +248,37 @@ function updateImages(rows) {
 
 function loadTrack(i){
 
-    console.log(i)
+    console.log("index =",  i);
     audio.src = playlist[i];
-    const name = playlist[i].split("/").pop().split(".")[0];
-    trackName.textContent = name;
+
+    const fullName = playlist[i].split("/").pop().split(".")[0];
+    artistFromPath = fullName.split(" - ")[0];
+    trackFromPath = fullName.split(" - ")[1];
+    console.log(artistFromPath);
+    console.log(trackFromPath);
+
+    trackArtist.textContent = artistFromPath;
+    trackName.textContent = trackFromPath;
+    const album = allTracks[i]["album"]
+
+    console.log(album);
+
+    const img = document.querySelector(".coverPlayer");
+    img.src = `/images/${artistFromPath} - ${album}.jpg`;
+    img.onerror = () => {
+    img.src = "/images/available_default-cover.jpg";
+    };
+
+
+    const img2 = document.querySelector(".coverTooltip");
+    img2.src = `/images/${artistFromPath} - ${album}.jpg`;
+    img2.onerror = () => {
+    img2.src = "/images/available_default-cover.jpg";
+    };
+    tooltipTitle.textContent = `Titre : ${trackFromPath}`
+    tooltipArtist.textContent = `Artiste : ${artistFromPath}`
+    tooltipAlbum.textContent = `Album : ${album}`
+    tooltipDescription.textContent = "Description ??"
 }
 
 function playTrack(i) {
@@ -268,11 +313,11 @@ document.querySelector(".music-table tbody").addEventListener("click", (e) => {
     const row = e.target.closest(".track-row");
     if (!row) return;
 
-    // index_playlist = row.dataset.index - 1;
     index_playlist = parseInt(row.dataset.realIndex);
 
     if (playlist[index_playlist]) {
         playTrack(index_playlist);
+        previousTracks = []
     }
 });
 
@@ -302,7 +347,31 @@ playButtons.forEach(btn => {
 // Contrôles playlist
 function nxtTrack(index) {
 
-    index++;
+    if (isShuffleActive) {
+        if (j === 0){
+
+            if ( !(previousTracks.includes(index))) {
+                previousTracks.push(index);
+            }
+
+            index = Math.floor(Math.random() * playlist.length);
+
+            while (previousTracks.includes(index)) {
+                index = Math.floor(Math.random() * playlist.length);
+            }
+
+        } else {
+            j = j - 1;
+            index = previousTracks[previousTracks.length - 1 - j];
+        }
+
+        console.log(previousTracks);
+        console.log("j =", j);
+        
+    } else {
+        index++;
+    }
+
     if(index >= playlist.length){
         index = 0;
     }
@@ -312,22 +381,50 @@ function nxtTrack(index) {
             index = 0;
         }
     }
+
     playTrack(index);
     return index;
 }
 
 function prvTrack(index) {
 
-    index--;
-    if(index < 0){
-        index = playlist.length - 1;
-    }
-    while (!playlist[index]) {
+
+    if (isShuffleActive) {
+
+        if (previousTracks.length === 1) {
+            if (j === 0) {
+                previousTracks.push(index);
+                index = previousTracks[0];
+                j = j + 1;
+            }
+
+        }
+
+        if (j !== previousTracks.length - 1) {
+            if (j === 0) {
+                previousTracks.push(index);
+            }
+
+            j = j + 1;
+            index = previousTracks[previousTracks.length - 1 - j];
+        }
+
+        console.log(previousTracks);
+        console.log("j =", j);
+
+    } else {
         index--;
         if(index < 0){
-                index = playlist.length - 1;
+            index = playlist.length - 1;
+        }
+        while (!playlist[index]) {
+            index--;
+            if(index < 0){
+                    index = playlist.length - 1;
+            }
         }
     }
+
     playTrack(index);
     return index;
 }
@@ -367,4 +464,27 @@ audio.addEventListener("timeupdate", () => {
 progress.addEventListener("input", () => {
     const newTime = (progress.value / 100) * audio.duration;
     audio.currentTime = newTime;
+});
+
+
+
+// Bouton lecture aléatoire
+const randomButtons = document.querySelectorAll(".randomBtnClass");
+
+let isShuffleActive = false;
+
+randomButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        isShuffleActive = !isShuffleActive;
+
+        randomButtons.forEach(btn => {
+            btn.classList.toggle("active", isShuffleActive);
+
+            previousTracks = []
+            const j = 0;
+        });
+
+        console.log("Mode aléatoire :", isShuffleActive);
+        console.log("j =", j);
+    });
 });

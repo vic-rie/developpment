@@ -2,20 +2,30 @@ import os
 from flask import Flask, jsonify, render_template, send_from_directory
 from mutagen.mp3 import MP3
 
-
 import functions as module
 import counting_tracks as ct
 
 
 
-dfDataJSON = module.load_data("tracks.json")
 basepath_ = "Users/Elève/Desktop/developpment"
 app = Flask(__name__)
 
 
+print("Importation des données json...")
+dfDataJSON = module.load_data("tracks.json")
+
+print("Tri des données...")
+dfDataJSON = dfDataJSON.sort_values(
+    by=["artist", "album", "track"],
+    key=lambda col: col.map(module.normalize)
+)
+
+
 if os.path.exists("E:/Music"):
     AUDIO_FOLDER = "E:/Music"  # chemin disque externe
-    IMAGES_FOLDER = "E:/Covers"
+    # IMAGES_FOLDER = "E:/Covers"
+    IMAGES_FOLDER = "E:/Covers_from_spotify"
+    
     timingsPaths = f"C:/{basepath_}/frontend/timings.txt"
 else:
     AUDIO_FOLDER = "C:/Users/Elève/Desktop/developpment/frontend/static/audio"  # chemin local

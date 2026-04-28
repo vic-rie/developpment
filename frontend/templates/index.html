@@ -52,7 +52,7 @@
             <div class="buttonsPan">
                 <button class="playBtn play"></button>
 
-                <button id="randomBtn">
+                <button class="randomBtnClass" id="randomBtn">
                     <svg viewBox="0 0 6.3499999 4.7273598">
                         <path d="M 5.5304118,1.1017775e-7 V 0.37930516 H 4.8456991 A 1.6289362,1.6196558 0 0 0 3.3873901,1.2779584 L 3.175,1.7022219 2.9972331,1.346688 A 1.7531171,1.7431291 0 0 0 1.4273031,0.37930516 H 0 v 0.5291667 H 1.3487549 A 1.2395908,1.2325285 0 0 1 2.4587646,1.5921511 L 2.8442708,2.3636802 2.4587646,3.1352093 A 1.2395908,1.2325285 0 0 1 1.3487549,3.8188885 H 0 v 0.5291667 h 1.4273031 a 1.7531171,1.7431291 0 0 0 1.56993,-0.9673828 L 3.175,3.0251385 3.3873901,3.449402 a 1.6289362,1.6196558 0 0 0 1.458309,0.8986532 h 0.6847127 v 0.379305 L 6.35,4.0834719 5.5304118,3.4395835 v 0.379305 H 4.953186 A 1.1615063,1.1548889 0 0 1 3.9129395,3.1781008 L 3.5057292,2.3636802 3.9129395,1.5492596 A 1.1615063,1.1548889 0 0 1 4.953186,0.90847186 H 5.5304118 V 1.2877769 L 6.35,0.64388846 Z"/>
                     </svg>
@@ -121,13 +121,40 @@
 
 <div id="music-player">
 
-    <!-- GAUCHE -->
-    <div class="player-left">
-        <span id="trackName">Chargement...</span>
+    <!-- Track container -->
+    <div class="trackData-container">
+        <div class="trackCover">
+            <img src="{{ url_for('external_images', filename='available_default-cover.jpg') }}"
+            alt="default-cover"
+            class="coverPlayer">
+        </div>
+        <div class="trackText">
+            <div class="trackNameContainer">
+                <span id="trackName">Chargement...</span>
+            </div>
+            
+            <div class="trackArtistContainer">
+                <span id="trackArtist">Chargement...</span>
+            </div>
+        </div>
+
+
+        <div class="trackTooltip">
+            <div class="coverTooltip-container">
+                <img src="{{ url_for('external_images', filename='available_default-cover.jpg') }}"
+                    alt="default-cover"
+                    class="coverTooltip">
+            </div>
+
+            <div id="tooltipTitle" class="tooltipNames">Titre beaucoup trop long, ceci est un test pour vérifier que l'affichage de textes longs suit la taille du texte comme prévu ! </div>
+            <div id="tooltipArtist" class="tooltipNames">Artiste :</div>
+            <div id="tooltipAlbum" class="tooltipNames">Album :</div>
+            <div id="tooltipDescription">Description ??</div>
+        </div>
     </div>
 
-    <!-- CENTRE -->
-    <div class="player-center">
+    <!-- control buttons container -->
+    <div class="controlButtons-container">
         <button id="prevBtn">
             <svg viewBox="0 0 6.3499999 6.3499999">
                 <path d="M 0,0 V 6.35 H 0.39635824 V 3.175 L 3.3729207,6.35 V 3.1744832 0 L 0.39635824,3.1739665 V 0 Z M 3.3729207,3.1744832 6.35,6.35 V 3.1744832 0 Z"/>
@@ -143,10 +170,36 @@
         </button>
     </div>
 
-    <!-- DROITE -->
-    <div class="player-right">
+    <!-- progress bar container -->
+    <div class="progressBar-container">
         <input type="range" id="progress" value="0" min="0" max="100">
         <span id="time">0:00 / 0:00</span>
+    </div>
+
+    <!-- playlist controls container -->
+    <div class="playlistParameters-container">
+        <div class="playlistName">
+            <span>
+                Nom de la playlist
+            </span>
+        </div>
+
+        <div class="playlistControls-container">
+            <div>
+                <button class="randomBtnClass" id="randomBtnControlBar">
+                    <svg viewBox="0 0 6.3499999 4.7273598">
+                        <path d="M 5.5304118,1.1017775e-7 V 0.37930516 H 4.8456991 A 1.6289362,1.6196558 0 0 0 3.3873901,1.2779584 L 3.175,1.7022219 2.9972331,1.346688 A 1.7531171,1.7431291 0 0 0 1.4273031,0.37930516 H 0 v 0.5291667 H 1.3487549 A 1.2395908,1.2325285 0 0 1 2.4587646,1.5921511 L 2.8442708,2.3636802 2.4587646,3.1352093 A 1.2395908,1.2325285 0 0 1 1.3487549,3.8188885 H 0 v 0.5291667 h 1.4273031 a 1.7531171,1.7431291 0 0 0 1.56993,-0.9673828 L 3.175,3.0251385 3.3873901,3.449402 a 1.6289362,1.6196558 0 0 0 1.458309,0.8986532 h 0.6847127 v 0.379305 L 6.35,4.0834719 5.5304118,3.4395835 v 0.379305 H 4.953186 A 1.1615063,1.1548889 0 0 1 3.9129395,3.1781008 L 3.5057292,2.3636802 3.9129395,1.5492596 A 1.1615063,1.1548889 0 0 1 4.953186,0.90847186 H 5.5304118 V 1.2877769 L 6.35,0.64388846 Z"/>
+                    </svg>
+                </button>
+            </div>
+            <div>
+                <button class="playlistControlButtons" id="queueBtnControlBar">
+                    <svg viewBox="0 0 6.3499999 5.0921955">
+                        <path d="M 0,0 V 0.87229818 1.7445964 L 1.5306559,0.87229818 Z M 1.9171956,0.40876058 V 1.2485026 H 2.9093831 V 0.40876058 Z m 1.5234213,0 V 1.2485026 H 6.35 V 0.40876058 Z M 0,2.3342244 V 3.1739665 H 2.9093831 V 2.3342244 Z m 3.4406169,0 V 3.1739665 H 6.35 V 2.3342244 Z M 0,4.2596883 V 5.0921956 H 2.9093831 V 4.2596883 Z m 3.4406169,0 V 5.0921956 H 6.35 V 4.2596883 Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
     </div>
 
     <audio id="audio"></audio>
