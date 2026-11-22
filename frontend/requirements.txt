@@ -6,3 +6,4 @@ requests
 mutagen
 pillow
 spotipy
+yt-dlp

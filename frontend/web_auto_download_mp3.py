@@ -26,11 +26,11 @@ toIgnore = ['YES', 'ERROR']
 
 # Chemin destination du mp3
 # mp3DestinationPath = f"C:/{basepath_}/frontend/static/audio"
-mp3DestinationPath = f"E:/Music"
+mp3DestinationPath = f"E:/Music_provided_to_yt_by"
 
 # Ouverture de la page du convertisseur yt -> mp3
 options = Options()
-options.add_argument("--headless")  # en arrière-plan
+# options.add_argument("--headless")  # en arrière-plan
 
 driver = webdriver.Firefox(options=options)
 wait = WebDriverWait(driver, 15)
@@ -81,9 +81,32 @@ for i in range(start_index, len(dfList)):
         )
         convert_button.click()
 
-        download_btn = WebDriverWait(driver, 60).until(
-            EC.presence_of_element_located((By.ID, "download-btn"))
-        )
+        try:
+            download_btn = WebDriverWait(driver, 60).until(
+                EC.presence_of_element_located((By.ID, "download-btn"))
+            )
+
+        except:
+            driver.refresh()
+
+            input_box = wait.until(
+                EC.presence_of_element_located((By.ID, "videoUrl"))
+            )
+
+            input_box.clear()
+            input_box.send_keys(url)
+
+            convert_button = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, "//span[text()='Convertir']/ancestor::button")
+                )
+            )
+            convert_button.click()
+
+            download_btn = WebDriverWait(driver, 60).until(
+                EC.presence_of_element_located((By.ID, "download-btn"))
+            )
+
 
         # attendre que le mp3 soit prêt
         wait.until(lambda d: download_btn.get_attribute("data-url") not in [None, ""])

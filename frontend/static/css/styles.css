@@ -1,4 +1,8 @@
 body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -7,12 +11,15 @@ body {
     padding-bottom: 90px;
 }
 
+
 /* L'absence de signe devant l'objet siginifie que les objets sont définis pour toutes les balises '<button' */
 button {
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
+    color: white;
+
 }
 
 
@@ -21,6 +28,8 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    z-index: 10;
 }
 
 .tabs {
@@ -60,10 +69,10 @@ button {
     transform: scale(1.05);
 }
 
-/* .tab-btn.active svg {
+.tab-btn.active svg {
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.678));
     transform: scale(1.05);
-} */
+}
 
 
 #settings-btn {
@@ -91,12 +100,12 @@ button {
 
 .tab-content {
     display: none;
+    color:white;
 }
 
 .tab-content.active {
     display: block;
 }
-
 
 
 
@@ -258,11 +267,14 @@ textarea::placeholder {
     width: 100%;
     max-width: 1000px;
     margin: 20px auto;
+    margin-bottom: 0px;
     border-collapse: collapse;
     font-size: 17px;
     color: white;
+}
 
-
+.music-table-void {
+    height: 30px;
 }
 
 .hidden {
@@ -321,6 +333,420 @@ textarea::placeholder {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* tab2 : interface B */
+.subtab-content {
+    display: none;
+    color:white;
+}
+
+.subtab-content.active {
+    display: block;
+}
+
+.subtab-btn {
+    margin: 10px;
+    font-size: 20px;
+}
+
+
+.subtab-btn:hover {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.678));
+    transform: scale(1.05);
+}
+
+.subtab-btn.active {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.678));
+    transform: scale(1.05);
+}
+
+
+.albumTable-container {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 100%;
+    max-width: 1000px;
+    height: 10px;
+
+    color: white;
+
+    /* gap: 20px; */
+
+    padding: 10px;
+
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+
+#headAlbum {
+    margin-left: 12px;
+}
+
+#artistAlbum {
+    margin-left: 320px;
+}
+
+#availableTitlesAlbum {
+    margin-left: 305px;
+}
+
+
+
+.album-table {
+    /* width: 100%; */
+    width: auto;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-size: 17px;
+    color: white;
+    table-layout: fixed;
+}
+
+
+.album-table td {
+    padding: 7px;
+    border-bottom: 1px solid #ccc;
+    vertical-align: middle;
+    height: 70px;
+    line-height: 70px;
+}
+
+.album-table td:nth-child(1) {
+    width: 70px;
+    max-width: 70px;
+    min-width: 70px;
+    padding-left: 10px;
+    padding-right: 15px;
+}
+
+.album-table td:nth-child(2) {
+    width: 300px;
+    line-height: 1.2;
+}
+
+.album-table td:nth-child(3) {
+    width: 400px;
+}
+
+.album-table td:nth-child(4) {
+    width: 300px;
+}
+
+
+.album-table tr:hover {
+    cursor: pointer;
+}
+
+.albumPhotoList {
+    width: 70px;
+    height: 70px;
+    /* object-fit: cover;
+    border-radius: 50%; */
+    display: block;
+}
+
+
+
+
+
+
+
+/* tab5 : interface B1 */
+
+.albumPage {
+    height: calc(101vh - 150px);
+    overflow-y: auto;
+}
+
+.albumPage::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.76);
+    z-index: -9;
+}
+
+
+.albumCover-container {
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.albumCover {
+    width: 360px;
+    object-fit: cover;
+}
+
+.albumHeader {
+    margin-top: -10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#albumPageTracks {
+    margin-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.artistTable-container {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 100%;
+    max-width: 1000px;
+    height: 10px;
+
+    color: white;
+
+    /* gap: 20px; */
+
+    padding: 10px;
+
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+#headArtist {
+    margin-left: 12px;
+}
+
+#availableTitlesArtist {
+    margin-left: 320px;
+}
+
+#availableAlbumsArtist {
+    margin-left: 217px;
+}
+
+
+
+.artist-table {
+    /* width: 100%; */
+    width: auto;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-size: 17px;
+    color: white;
+    table-layout: fixed;
+
+    height: calc(101vh - 150px);
+    overflow-y: auto;
+}
+
+
+.artist-table td {
+    padding: 7px;
+    border-bottom: 1px solid #ccc;
+    vertical-align: middle;
+    height: 70px;
+    line-height: 70px;
+}
+
+.artist-table td:nth-child(1) {
+    width: 70px;
+    max-width: 70px;
+    min-width: 70px;
+    padding-left: 10px;
+    padding-right: 15px;
+}
+
+.artist-table td:nth-child(2) {
+    width: 300px;
+}
+
+.artist-table td:nth-child(3) {
+    width: 400px;
+}
+
+.artist-table td:nth-child(4) {
+    width: 300px;
+}
+
+
+.artist-table tr:hover {
+    cursor: pointer;
+}
+
+.artistPhotoList {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+/* tab4 : interface C1 */
+
+.artistPage {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+
+
+.artistPage::before {
+    content: "";
+    position: fixed;
+    top: 100px;
+    left: 205px;
+    width: 70%;
+    height: 100%;
+
+
+    background-image: var(--artist-bg);
+
+    box-shadow: 0 -2px 50px rgba(0, 0, 0, 0.5);
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    z-index: -10;
+}
+
+.artistPage::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.76);
+    z-index: -9;
+}
+
+
+.artistHeader {
+    margin-top: 50px;
+    margin-left: 100px;
+
+    display: flex;
+    align-items: center;
+}
+
+#artistPageTracks {
+    margin-left: 10px;
+}
+
+
+#discographyTitle {
+    margin-top: 80px;
+    margin-left: 100px;
+
+}
+
+
+#albumsGrid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 25px;
+
+    margin-top: 30px;
+    margin-left: 120px;
+    margin-right: 120px;
+}
+
+.albumCard {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.albumCard:hover {
+    transform: scale(1.03);
+}
+
+.albumCard img {
+    width: 95%;
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+
+    display: block;
+}
+
+.albumTitle {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.albumArtist {
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #music-player {
     position: fixed;
     bottom: 0;
@@ -340,6 +766,8 @@ textarea::placeholder {
     padding: 10px;
 
     box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+
+    z-index: 1000; /* 🔥 au-dessus de tout */
 }
 
 .trackData-container {

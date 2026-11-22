@@ -1,13 +1,10 @@
 import os
 from flask import Flask, jsonify, render_template, send_from_directory
-from mutagen.mp3 import MP3
+import pandas as pd
 
 import functions as module
 import counting_tracks as ct
 
-
-
-basepath_ = "Users/Elève/Desktop/developpment"
 app = Flask(__name__)
 
 
@@ -20,13 +17,22 @@ dfDataJSON = dfDataJSON.sort_values(
     key=lambda col: col.map(module.normalize)
 )
 
+# Paths
+basepath_ = "Users/Elève/Desktop/developpment"
+tablePath = f"C:/{basepath_}/frontend/artistsTable.xlsx"
+albumTablePath = f"C:/{basepath_}/frontend/albumsTable.xlsx"
 
-if os.path.exists("E:/Music"):
-    AUDIO_FOLDER = "E:/Music"  # chemin disque externe
-    # IMAGES_FOLDER = "E:/Covers"
-    IMAGES_FOLDER = "E:/Covers_from_spotify"
-    
+
+artistsTable = pd.read_excel(tablePath).drop(columns= ["Photo downloaded ?"])
+albumsTable = pd.read_excel(albumTablePath)
+
+
+if os.path.exists("D:/10h"):
+    # AUDIO_FOLDER = "D:/Music"  # chemin disque externe
+    AUDIO_FOLDER = "D:/10h/Music/Music_mix"
+    IMAGES_FOLDER = "D:/10h/Image"
     timingsPaths = f"C:/{basepath_}/frontend/timings.txt"
+
 else:
     AUDIO_FOLDER = "C:/Users/Elève/Desktop/developpment/frontend/static/audio"  # chemin local
     IMAGES_FOLDER = "C:/Users/Elève/Desktop/developpment/frontend/static/images"
@@ -96,6 +102,17 @@ def playlist():
 @app.route("/tracks")
 def get_tracks():
     data = dfDataJSON.to_dict(orient="records")
+    return data
+
+
+@app.route("/artists")
+def get_artists():
+    data = artistsTable.to_dict(orient="records")
+    return data
+
+@app.route("/albums")
+def get_albums():
+    data = albumsTable.to_dict(orient="records")
     return data
 
 

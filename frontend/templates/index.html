@@ -47,75 +47,185 @@
     </div>
 
 
-    <div id="tab1" class="tab-content active">
-        <div id="control-box">
-            <div class="buttonsPan">
-                <button class="playBtn play"></button>
+    <!-- <div id="tab1" class="tab-content active"> -->
+    <div id="tab1" class="tab-content">
+        <div class="mainHome-container">
+            <div id="control-box">
+                <div class="buttonsPan">
+                    <button class="playBtn play"></button>
 
-                <button class="randomBtnClass" id="randomBtn">
-                    <svg viewBox="0 0 6.3499999 4.7273598">
-                        <path d="M 5.5304118,1.1017775e-7 V 0.37930516 H 4.8456991 A 1.6289362,1.6196558 0 0 0 3.3873901,1.2779584 L 3.175,1.7022219 2.9972331,1.346688 A 1.7531171,1.7431291 0 0 0 1.4273031,0.37930516 H 0 v 0.5291667 H 1.3487549 A 1.2395908,1.2325285 0 0 1 2.4587646,1.5921511 L 2.8442708,2.3636802 2.4587646,3.1352093 A 1.2395908,1.2325285 0 0 1 1.3487549,3.8188885 H 0 v 0.5291667 h 1.4273031 a 1.7531171,1.7431291 0 0 0 1.56993,-0.9673828 L 3.175,3.0251385 3.3873901,3.449402 a 1.6289362,1.6196558 0 0 0 1.458309,0.8986532 h 0.6847127 v 0.379305 L 6.35,4.0834719 5.5304118,3.4395835 v 0.379305 H 4.953186 A 1.1615063,1.1548889 0 0 1 3.9129395,3.1781008 L 3.5057292,2.3636802 3.9129395,1.5492596 A 1.1615063,1.1548889 0 0 1 4.953186,0.90847186 H 5.5304118 V 1.2877769 L 6.35,0.64388846 Z"/>
-                    </svg>
-                </button>
+                    <button class="randomBtnClass" id="randomBtn">
+                        <svg viewBox="0 0 6.3499999 4.7273598">
+                            <path d="M 5.5304118,1.1017775e-7 V 0.37930516 H 4.8456991 A 1.6289362,1.6196558 0 0 0 3.3873901,1.2779584 L 3.175,1.7022219 2.9972331,1.346688 A 1.7531171,1.7431291 0 0 0 1.4273031,0.37930516 H 0 v 0.5291667 H 1.3487549 A 1.2395908,1.2325285 0 0 1 2.4587646,1.5921511 L 2.8442708,2.3636802 2.4587646,3.1352093 A 1.2395908,1.2325285 0 0 1 1.3487549,3.8188885 H 0 v 0.5291667 h 1.4273031 a 1.7531171,1.7431291 0 0 0 1.56993,-0.9673828 L 3.175,3.0251385 3.3873901,3.449402 a 1.6289362,1.6196558 0 0 0 1.458309,0.8986532 h 0.6847127 v 0.379305 L 6.35,4.0834719 5.5304118,3.4395835 v 0.379305 H 4.953186 A 1.1615063,1.1548889 0 0 1 3.9129395,3.1781008 L 3.5057292,2.3636802 3.9129395,1.5492596 A 1.1615063,1.1548889 0 0 1 4.953186,0.90847186 H 5.5304118 V 1.2877769 L 6.35,0.64388846 Z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="nbTitlesPan">
+                    <span id="textPan">nombre de titres     |<br> {{ availableTracks }}     |</span>
+                </div>
+                    
+                <div class="duration">
+                    <span>durée <br> {{ totalDurationInHours }}</span>
+                </div>
+
+                <div class="headPan">
+                    <span id="nbPan">#</span>
+                    <span id="titlePan">Titres</span>
+                    <span id="albumPan">Albums</span>
+                    <span id="clockPan">🕒</span>
+                </div>
+
             </div>
 
-            <div class="nbTitlesPan">
-                <span id="textPan">nombre de titres     |<br> {{ availableTracks }}     |</span>
-            </div>
-                
-            <div class="duration">
-                <span>durée <br> {{ totalDurationInHours }}</span>
+
+            <!-- TABLEAU -->
+            <table class="music-table">
+                <tbody id="music-body">
+    
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div id="tab2" class="tab-content active">
+        <div class = "playlistTable-container">
+            <button id="albumButton" class="subtab-btn active" data-tab="tab21">
+                Album
+            </button>
+
+            <button id="playlistButton" class="subtab-btn" data-tab="tab22">
+                Playlist
+            </button>
+
+            <div id="tab21" class="subtab-content active">
+                <div class = "albumTable-container">
+
+                    <div class="headAlbumTable">
+                        <span id="headAlbum">Album</span>
+                        <span id="artistAlbum">Artiste</span>
+                        <span id="availableTitlesAlbum">Titres disponibles</span>
+                    </div>
+
+
+                    <table class="album-table">
+                        <tbody id="album-body">
+
+                        </tbody>
+                    </table>
+
+                </div>
+            
             </div>
 
-            <div class="headPan">
-                <span id="nbPan">#</span>
-                <span id="titlePan">Titres</span>
-                <span id="albumPan">Albums</span>
-                <span id="clockPan">🕒</span>
+            <div id="tab22" class="subtab-content">
+                Playlist
+            
             </div>
 
         </div>
-
-
-        <!-- TABLEAU -->
-        <table class="music-table">
-            <tbody id="music-body">
-                <!-- {% for row in data %}
-                <tr class="track-row" data-artist="{{ row.artist }}" data-track="{{ row.track }}" data-album="{{ row.album }}" data-index="{{ loop.index }}">
-                    <td>{{ loop.index }}</td>
-                    <td>
-                        <img src="{{ url_for('external_images', filename='default-cover.jpg') }}"
-                        alt="default-cover"
-                        class="albumCoverList">
-                    </td>
-                    <td>
-                        <div class="titleList">{{ row.track }}</div>
-                        <div class="artistList">{{ row.artist }}</div>
-                    </td>
-                    <td>{{ row.album }}</td>
-                    <td>{{ row.duration }}</td>
-
-                    
-                </tr>
-                {% endfor %} -->
-            </tbody>
-        </table>
-
-
     </div>
 
-    <div id="tab2" class="tab-content">
-        <h2>Playlists (Interface B)</h2>
-        <p>Liste de toutes les playlists à disposition.</p>
- 
+
+
+    <div id="tab5" class="tab-content">
+        <div class="albumPage">
+
+            <div class="albumCover-container">
+                <!-- GENERER ICI LA POCHETTE DE L'ALBUM -->
+            </div>
+
+            <div class="albumHeader">
+                <h1 id="albumPageName">Nom de l'album</h1>
+                <span id="albumPageTracks"></span>
+            </div>
+
+            <table class="music-table">
+                <tbody id="albumTracksBody">
+                    <!-- GENERER ICI LE NOUVEAU TABLEAU AVEC LES ARTISTES -->
+                </tbody>
+            </table>
+
+            <div class="music-table-void ">
+
+            </div>
+
+        </div>
     </div>
 
         
+
+
+
+
+
+
+
+
     <div id="tab3" class="tab-content">
-        <h2>Artistes (Interface C)</h2>
-        <p>Liste de tous les artistes à disposition.</p>
+        
+        <div class = "artistTable-container">
+
+            <div class="headArtistTable">
+                <span id="headArtist">Artiste</span>
+                <span id="availableTitlesArtist">Titres disponibles</span>
+                <span id="availableAlbumsArtist">Albums disponibles</span>
+            </div>
+
+
+            <!-- TABLEAU -->
+            <table class="artist-table">
+                <tbody id="artist-body">
+                    <!-- GENERER ICI LE NOUVEAU TABLEAU AVEC LES ARTISTES -->
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+
+<div id="tab4" class="tab-content">
+    <div class="artistPage">
+
+        <div class="artistHeader">
+            <h1 id="artistPageName">Nom artiste</h1>
+            <span id="artistPageTracks"></span>
+            <span id="artistPageAlbums"></span>
+        </div>
+
+        <table class="music-table">
+            <tbody id="artistTracksBody"></tbody>
+        </table>
+
+        <div class="discographyArtist">
+            <h1 id="discographyTitle">Discographie</h1>
+
+            <div id="albumsGrid"></div>
+        </div>
 
     </div>
+</div>
+
+
+
+
+
+
+
+
+
 
 
 

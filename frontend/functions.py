@@ -1,7 +1,5 @@
 import json
 import pandas as pd
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from PIL import Image
 from mutagen.mp3 import MP3

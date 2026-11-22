@@ -63,7 +63,7 @@ dfData = module.load_data("tracks.json")
 basepath_ = "Users/Elève/Desktop/developpment"
 filepath = f"C:/{basepath_}/frontend/url_list.xlsx"
 temp_path = f"C:/{basepath_}/frontend/tmp.xlsx"
-coverDestinationPath = f"E:/Covers_from_spotify"
+coverDestinationPath = f"E:/10h/Image/Covers_from_spotify"
 
 dfList = pd.read_excel(filepath)
 
@@ -99,7 +99,7 @@ for i in range(len(dfData)):
     indexLigne = ligne.index[0]
 
     # Remplir uniquement une ligne non traitée
-    if (((ligne["Cover"] != 'YES').iloc[0]) or ((ligne["Cover"] != 'NOT FOUND').iloc[0])):
+    if (((ligne["Cover"] != 'YES').iloc[0]) and ((ligne["Cover"] != 'NOT FOUND').iloc[0])):
         print("")
 
         coverName = clean_filename(f"{artist} - {album}.jpg")
@@ -126,18 +126,18 @@ for i in range(len(dfData)):
         print(f"{artist} - {album}")
 
         
-    if (i % 10 == 0):
-        # Charger le classeur existant avec openpyxl
-        wb = load_workbook(filepath)
+        if (i % 10 == 0):
+            # Charger le classeur existant avec openpyxl
+            wb = load_workbook(filepath)
 
-        # Écrire avec pandas tout en réutilisant le workbook
-        with pd.ExcelWriter(temp_path, engine='openpyxl', mode='a',
-                            if_sheet_exists='overlay') as writer:
-            dfList.to_excel(writer, sheet_name=wb.sheetnames[0], index=False)
+            # Écrire avec pandas tout en réutilisant le workbook
+            with pd.ExcelWriter(temp_path, engine='openpyxl', mode='a',
+                                if_sheet_exists='overlay') as writer:
+                dfList.to_excel(writer, sheet_name=wb.sheetnames[0], index=False)
 
-        # Remplace uniquement si succès
-        shutil.copy(temp_path, filepath)
+            # Remplace uniquement si succès
+            shutil.copy(temp_path, filepath)
 
-        # Avancée globale
-        print(f"Avancée globale : {round((i/len(dfData))*100, 2)} %")
-        print("Morceaux traités pendant cette exécution :", i + 1 - start_index)
+            # Avancée globale
+            print(f"Avancée globale : {round((i/len(dfData))*100, 2)} %")
+            print("Morceaux traités pendant cette exécution :", i + 1 - start_index)
